@@ -31,6 +31,8 @@ var fullTileList = [];
 
 var devMode = false;
 
+var finishingLevel = false;
+
 // Add listeners to report constant cursor position
 document.addEventListener('touchmove', onCursorMove);
 document.addEventListener('mousemove', onCursorMove);
@@ -197,28 +199,30 @@ homeButton.addEventListener('click', async () => {
 
 const quickRegenerateButton = document.getElementById('header-restart');
 quickRegenerateButton.addEventListener('click', async () => {
-    puzzleSolved = false;
-    timerRunning = false;
-    timer.innerHTML = "0:00";
-    timerSeconds = 0;
-    swaps = 0;
-    swapCounter.innerHTML = "Swaps: " + swaps;
-    grid.classList.add('fade-out');
-    await sleep(500);
-    grid.innerHTML = "";
-    grid.style = "";
-    fixedTileNumList = [];
-    fixedTileList = [];
-    randomTileList = [];
-    fullTileList = [];
-    generateGrid();
-    while(!puzzleReady){};
-    grid.classList.remove('fade-out');
-    grid.classList.add('fade-in');
-    await sleep(500);
-    grid.classList.remove('fade-in');
-    await sleep(500);
-    transitionTiles(insertTilesRandom);
+    if(!finishingLevel && finalOverlay.classList.contains('hidden')) {
+        puzzleSolved = false;
+        timerRunning = false;
+        timer.innerHTML = "0:00";
+        timerSeconds = 0;
+        swaps = 0;
+        swapCounter.innerHTML = "Swaps: " + swaps;
+        grid.classList.add('fade-out');
+        await sleep(500);
+        grid.innerHTML = "";
+        grid.style = "";
+        fixedTileNumList = [];
+        fixedTileList = [];
+        randomTileList = [];
+        fullTileList = [];
+        generateGrid();
+        while(!puzzleReady){};
+        grid.classList.remove('fade-out');
+        grid.classList.add('fade-in');
+        await sleep(500);
+        grid.classList.remove('fade-in');
+        await sleep(500);
+        transitionTiles(insertTilesRandom);
+    }
 });
 
 const menuButton = document.getElementById('header-menu');
@@ -484,6 +488,7 @@ async function stopDrag(touch) {
                     break winCheck;
                 }
                 if(i === totalSquares) {
+                    finishingLevel = true;
                     puzzleSolved = true;
                     timerRunning = false;
                     jsConfetti.addConfetti();
@@ -493,6 +498,7 @@ async function stopDrag(touch) {
 
                     overlaySwaps.innerHTML = swaps;
                     finalOverlay.classList.remove('hidden');
+                    finishingLevel = false;
                 }
             }
 
