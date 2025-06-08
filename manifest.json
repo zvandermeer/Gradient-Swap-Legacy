@@ -1,7 +1,7 @@
 {
     "lang": "en-us",
-    "name": "Colour Swap Game",
-    "short_name": "Colour Swap!",
+    "name": "Colour Swap Game - Legacy",
+    "short_name": "Colour Swap - Legacy",
     "description": "An infinitely replayable, randomly generated clone of the Colours game from Puzzledom",
     "start_url": "/",
     "background_color": "#fff9e7",
